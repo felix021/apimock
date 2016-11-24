@@ -3,10 +3,10 @@
 return [
     'components' => [
         'db' => [
-            'connectionString' => 'mysql:host=localhost;dbname=apimock',
+            'connectionString' => 'mysql:host=10.10.10.132;dbname=apimock',
             'emulatePrepare'   => true,
-            'username'         => 'root',
-            'password'         => '123456',
+            'username'         => 'apimock',
+            'password'         => 'apimock',
             'charset'          => 'utf8mb4',
         ],
         'log' => [
