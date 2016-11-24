@@ -9,7 +9,15 @@ class ApieditorController extends Controller
         'result_id'         => ['Validator', 'isInteger'],
         'result_desc'       => ['Validator', 'isNonEmptyString'],
         'result_content'    => ['Validator', 'isJson'],
+        'batch_id'          => ['Validator', 'isInteger'],
+        'batch_name'        => ['Validator', 'isNonEmptyString'],
+        'rule_id'           => ['Validator', 'isInteger'],
     ];
+
+    public function actionTest()
+    {
+        $this->render('test');
+    }
 
     public function actionIndex()
     {
@@ -20,7 +28,7 @@ class ApieditorController extends Controller
     {
         $key = Yii::app()->request->getParam('key', '');
         if ($key) {
-            $arr_api = Api::model()->search($key);
+            $arr_api = Api::model()->search(trim($key));
         } else {
             $arr_api = Api::model()->findAll();
         }
@@ -151,5 +159,112 @@ class ApieditorController extends Controller
         $this->ajaxOutput(Err::E_SUCCESS, '', [
             'json' => json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
         ]);
+    }
+
+    public function actionBatch()
+    {
+        $this->render("batch");
+    }
+
+    public function actionBatchList()
+    {
+        $key = Yii::app()->request->getParam('key', '');
+        if ($key) {
+            $arr_batch = Batch::model()->search($key);
+        } else {
+            $arr_batch = Batch::model()->findAll();
+        }
+        $batch_list = [];
+        foreach ($arr_batch as $batch) {
+            $batch_list[] = [
+                'batch_id'    => $batch->batch_id,
+                'batch_name'  => $batch->batch_name,
+            ];
+        }
+        $this->ajaxOutput(Err::E_SUCCESS, '', ['batch_list' => $batch_list]);
+    }
+
+    public function actionBatchDetail()
+    {
+        $batch_id = Yii::app()->request->getParam('batch_id', '');
+        $batch = Batch::model()->with('ruleSet')->findByPk($batch_id);
+        if (!$batch) {
+            throw new CException("invalid batch_id");
+        }
+        $data = [
+            'batch_id'   => $batch->batch_id,
+            'batch_name' => $batch->batch_name,
+            'rule_set'   => [],
+        ];
+        foreach ($batch->ruleSet as $rule) {
+            $api = $rule->api;
+            $result = $rule->result;
+            $data['rule_set'][] = [
+                'rule_id' => $rule->rule_id,
+                'rule_name' => $rule->rule_name,
+                'api_name' => $api->api_name,
+                'api_desc' => $api->api_desc,
+                'result_desc' => $result->result_desc,
+                'result_content' => $result->result_content,
+            ];
+        }
+        $this->ajaxOutput(Err::E_SUCCESS, '', $data);
+    }
+
+    public function actionAddBatch()
+    {
+        $d = $this->buildData(['batch_name']);
+        $batch = Batch::model()->create($d['batch_name']);
+        $this->ajaxOutput(Err::E_SUCCESS, '', ['batch_id' => $batch->batch_id]);
+    }
+
+    public function actionChangeBatchName()
+    {
+        $d = $this->buildData(['batch_id', 'batch_name']);
+        $batch = Batch::model()->findByPk($d['batch_id']);
+        if (!$batch) {
+            throw new CException("invalid batch_id");
+        }
+        $batch->changeName($d['batch_name']);
+        $this->ajaxOutput(Err::E_SUCCESS, '');
+    }
+
+    public function actionRemoveRule()
+    {
+        $d = $this->buildData(['rule_id']);
+        if (!Rule::model()->deleteByPk($d['rule_id'])) {
+            $this->ajaxOutput(Err::E_FAIL, var_export(Rule::model()->getErrors(), true));
+        } else {
+            $this->ajaxOutput(Err::E_SUCCESS, '');
+        }
+    }
+
+    public function actionSaveRule()
+    {
+        $d = $this->buildData(['batch_id', 'api_name', 'result_id']);
+        $api = Api::model()->findByName($d['api_name']);
+        if (!$api) {
+            throw new CException("invalid api: {$d['api_name']}");
+        }
+        $result = Result::model()->findByPk($d['result_id']);
+        if (!$result) {
+            throw new CException("invalid result: {$d['result_id']}");
+        }
+        if ($result->result_api_id != $api->api_id) {
+            throw new CException("result not match api");
+        }
+        $rule = Rule::model()->saveRule($d['batch_id'], $api->api_id, $d['result_id']);
+        $this->ajaxOutput(Err::E_SUCCESS, '', ['rule_id' => $rule->rule_id]);
+    }
+
+    public function actionApplyBatch()
+    {
+        $d = $this->buildData(['batch_id']);
+        $batch = Batch::model()->with('ruleSet')->findByPk($d['batch_id']);
+        if (!$batch) {
+            throw new CException("invalid batch: {$d['batch_id']}");
+        }
+        $batch->apply();
+        $this->ajaxOutput(Err::E_SUCCESS, '');
     }
 }

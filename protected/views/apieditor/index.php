@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="/img/apple-icon.png">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -28,17 +28,17 @@
         }
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
+      <script src="/js/html5shiv.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="ico/favicon.png">
+    <link rel="shortcut icon" href="/ico/favicon.png">
 	<script>
-		function ul_key_event(evt){
+		function ul_key_event(evt) {
 			var evt = (evt) ? evt : ((window.event) ? window.event : "")
 			var key = evt.keyCode ? evt.keyCode : evt.which;
 			if (key == 13 || key == 10) {
@@ -52,7 +52,8 @@
 					else
 						details(obj.innerHTML);
 				}
-			} }
+            }
+        }
 	</script>
   </head>
 
@@ -69,7 +70,8 @@
           <a class="brand" href="#">Api Editor</a>
           <div class="nav-collapse collapse">
               <ul class="nav">
-                  <li class="active"><a href="#">编辑</a></li>
+                  <li class="active"><a href="#">Api</a></li>
+                  <li><a href="/apieditor/batch">场景切换</a></li>
               </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -343,8 +345,8 @@
         <div id="container_tooltips"></div>
     </div><!--/.fluid-container-->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 
   </body>
 </html>

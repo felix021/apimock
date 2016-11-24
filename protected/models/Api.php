@@ -110,8 +110,16 @@ class Api extends CActiveRecord
         $o->api_name = self::format($api_name);
         $o->api_desc = $api_desc;
         $o->api_created_at = Dh::now();
-        if (!$o->save()) {
-            throw new CException(__METHOD__ . " failed for: " . var_export($o->getErrors(), true));
+        try {
+            if (!$o->save()) {
+                throw new CException(__METHOD__ . " failed for: " . var_export($o->getErrors(), true));
+            }
+        } catch (CDbException $e) {
+            if ($e->getCode() == 23000) {
+                throw new CDbException("api重名");
+            } else {
+                throw $e;
+            }
         }
         return $o;
     }
