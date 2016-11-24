@@ -317,7 +317,7 @@
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit" style="padding:20px;">
-            <h3 id="api_name">查询关键字支持模糊查询表名、关键字和用途</h3>
+            <h3 id="api_name">查询关键字支持模糊查询api名字用途</h3>
             <div id="detail" style="display:none;font-size:14px;">
             <div>
                 <input type="hidden" id="api_id" name="api_id" value=""/>
