@@ -1,0 +1,7 @@
+controllers/TestController.php
+commands/TestCommand.php
+*.swp
+*.swo
+*.txt
+*.log
+*.bak

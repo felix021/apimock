@@ -1,0 +1,11 @@
+!protected/runtime/.gitkeep
+protected/runtime/
+.idea/
+
+!assets/.gitkeep
+assets/
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
