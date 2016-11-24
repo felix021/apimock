@@ -306,8 +306,8 @@
         <div class="span3">
 
           <div class="well sidebar-nav" style="padding:10px;text-align:center;">
-              <input tabindex="1" class="input-xlarge search-query" id="query" type="text" style="padding-left:10px; width:75%"
-                    placeholder="输入查询关键字，然后按 回车 或 Tab" onkeyup="javascript:query(this.value);" />
+              <input tabindex="1" class="input-xlarge search-query" id="query" type="text" style="padding-left:10px; width:65%"
+                    placeholder="关键字(支持正则)，输入后按回车/Tab" onkeyup="javascript:query(this.value);" />
               <button type="submit" class="btn" onclick="add_api()">添加</button>
           </div><!--/.well -->
 

@@ -88,6 +88,8 @@ class Api extends CActiveRecord
         $criteria=new CDbCriteria;
         $criteria->addSearchCondition('api_name', '%' . $key . '%', false, 'OR');
         $criteria->addSearchCondition('api_desc', '%' . $key . '%', false, 'OR');
+        $criteria->addCondition('api_name REGEXP :key', 'OR');
+        $criteria->params['key'] = $key;
         return self::model()->findAll($criteria);
     }
 
