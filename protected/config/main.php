@@ -20,6 +20,8 @@ $main_config = [
     'modules' => [
     ],
 
+    'defaultController' => 'apieditor',
+
     // application components
     'components' => [
         'user' => [

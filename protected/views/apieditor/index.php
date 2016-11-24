@@ -5,6 +5,8 @@
     <title>Api Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="i@felix021.com">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-icon.png">
 
     <!-- Le styles -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -158,7 +160,7 @@
 
         function details(api_name)
         {
-            $('#result_id').html('');
+            $('#result_id').html('0');
             $('#result_desc').val('');
             $('#result_content').val('');
 
@@ -328,7 +330,7 @@
             <div>
                 <p><strong>结果</strong></p>
                 <div class="input-prepend input-append">
-                    <span class="add-on" id="result_id"></span>
+                    <span class="add-on" id="result_id">0</span>
                     <input type="text" id="result_desc" name="result_desc" style="width:300px" value="" placeholder="(描述信息)"/>
                     <input type="button" onclick="save_result()" value="保存" class="btn" />
                     <a class="btn" href="#" onclick="new_result()">新建</a>
