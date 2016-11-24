@@ -24,7 +24,7 @@ class Controller extends CController
     {
         $data = [];
         foreach ($keys as $key) {
-            $value = Yii::app()->request->getPost($key, null);
+            $value = Yii::app()->request->getParam($key, null);
             if (is_null($value)) {
                 if (array_key_exists($key, $this->default_values)) {
                     $value = $this->default_values[$key];

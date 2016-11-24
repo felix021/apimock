@@ -80,4 +80,9 @@ class Validator
     {
         return preg_match('@^https?://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS', $url);
     }
+
+    public static function isJson($json)
+    {
+        return $json == 'null' or json_decode($json, true) !== null;
+    }
 }

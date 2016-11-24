@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_SERVER['SITE_ENV'])) {
-    $_SERVER['SITE_ENV'] = 'local';
+    $_SERVER['SITE_ENV'] = 'homestead';
 }
 
 $env_config = require(__DIR__ . '/env/' . $_SERVER['SITE_ENV'] . '.php');

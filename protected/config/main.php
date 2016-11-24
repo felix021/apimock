@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_SERVER['SITE_ENV'])) {
-    $_SERVER['SITE_ENV'] = 'local';
+    $_SERVER['SITE_ENV'] = 'homestead';
 }
 
 $env_config = require(__DIR__ . '/env/' . $_SERVER['SITE_ENV'] . '.php');
@@ -29,11 +29,14 @@ $main_config = [
         'urlManager' => [
             'showScriptName'  =>  false,
             'urlFormat' => 'path',
+            'caseSensitive'  => false,
             'rules' => [
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                'gii'       => 'gii',
+                'gii/<action:.*>'       => 'gii/<action>',
+                'test/test' => 'test/test',
+                'apieditor' => 'apieditor/index',
+                'apieditor/<action:\w*>' => 'apieditor/<action>',
+                '(\w+/?)+' => 'api/fetch',
             ],
         ],
         'errorHandler' => [
