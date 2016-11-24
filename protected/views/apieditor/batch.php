@@ -126,7 +126,7 @@
         function do_query(text) {
             $.post('/apieditor/batchList', {key: text}, function (rsp) {
                 if (rsp.code != 0) {
-                    alert("invalid request");
+                    //alert("invalid request");
                     return;
                 }
                 var ul = $('#result').html('');
