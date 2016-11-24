@@ -38,7 +38,7 @@
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="ico/favicon.png">
 	<script>
-		function body_key_event(evt){
+		function ul_key_event(evt){
 			var evt = (evt) ? evt : ((window.event) ? window.event : "")
 			var key = evt.keyCode ? evt.keyCode : evt.which;
 			if (key == 13 || key == 10) {
@@ -52,12 +52,11 @@
 					else
 						details(obj.innerHTML);
 				}
-			}
-		}
+			} }
 	</script>
   </head>
 
-  <body onkeypress="body_key_event(event)">
+  <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner" style="opacity:0.75">
@@ -306,10 +305,10 @@
           <div class="well sidebar-nav" style="padding:10px;text-align:center;">
               <input tabindex="1" class="input-xlarge search-query" id="query" type="text" style="padding-left:10px; width:65%"
                     placeholder="关键字(支持正则)，输入后按回车/Tab" onkeyup="javascript:query(this.value);" />
-              <button type="submit" class="btn" onclick="add_api()">添加</button>
+              <button class="btn" onclick="add_api()">添加</button>
           </div><!--/.well -->
 
-            <ul class="nav nav-tabs nav-stacked" id="result">
+            <ul class="nav nav-tabs nav-stacked" id="result" onkeypress="ul_key_event()">
               <li><a href="#">先输入查询关键字 ↑↑↑ </a></li>
             </ul>
         </div><!--/span-->
