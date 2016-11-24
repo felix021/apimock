@@ -135,6 +135,9 @@ class Api extends CActiveRecord
 
     public static function format($api_name)
     {
+        $api_name = trim($api_name);
+        $api_name = preg_replace('=//=', '/', $api_name);
+        $api_name = preg_replace('/\?.*$/', '', $api_name);
         return '/' . trim($api_name, '/');
     }
 }

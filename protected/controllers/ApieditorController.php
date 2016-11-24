@@ -7,8 +7,8 @@ class ApieditorController extends Controller
         'api_name'          => ['Validator', 'isNonEmptyString'],
         'api_desc'          => ['Validator', 'isNonEmptyString'],
         'result_id'         => ['Validator', 'isInteger'],
-        'result_desc'       => ['validator', 'isNonEmptyString'],
-        'result_content'    => ['validator', 'isJson'],
+        'result_desc'       => ['Validator', 'isNonEmptyString'],
+        'result_content'    => ['Validator', 'isJson'],
     ];
 
     public function actionIndex()
@@ -142,5 +142,14 @@ class ApieditorController extends Controller
         $d = $this->buildData(['api_name']);
         $api = Api::model()->create($d['api_name'], '');
         $this->ajaxOutput(Err::E_SUCCESS, '');
+    }
+
+    public function actionFormatJson()
+    {
+        $d = $this->buildData(['result_content']);
+        $obj = json_decode($d['result_content'], false);
+        $this->ajaxOutput(Err::E_SUCCESS, '', [
+            'json' => json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
+        ]);
     }
 }

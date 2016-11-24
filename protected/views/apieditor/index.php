@@ -94,21 +94,8 @@
             return obj;
         }
 
-        var api_list = null;
-        var api_dict = {};
         window.onload = function() {
             $('#query').focus();
-            $.getJSON('/apieditor/list', function (result) {
-                if (result.code != 0) {
-                    alert("invalid request");
-                    return;
-                }
-                api_list = result.data.api_list;
-                for (var i = 0; i < api_list.length; i++) {
-                    var api = api_list[i];
-                    api_dict[api.api_name] = api;
-                }
-            });
         };
 
         function add_api()
@@ -136,14 +123,14 @@
 
 		var query_results = [];
         function do_query(text) {
-            $.getJSON('/apieditor/list?key=' + text + '&rnd=' + Math.random(), function (result) {
-                if (result.code != 0) {
+            $.post('/apieditor/list', {key: text}, function (rsp) {
+                if (rsp.code != 0) {
                     alert("invalid request");
                     return;
                 }
                 var ul = $('#result').html('');
                 query_results = [];
-                var api_list = result.data.api_list;
+                var api_list = rsp.data.api_list;
                 for (var i = 0; i < api_list.length; i++) {
                     var api = api_list[i];
                     var a = $('<a>').html(api.api_name).attr('tabindex', api_list.length + 2)
@@ -164,7 +151,7 @@
             $('#result_desc').val('');
             $('#result_content').val('');
 
-            $.getJSON('/apieditor/detail?api_name=' + api_name + '&rnd=' + Math.random(), function (rsp) {
+            $.post('/apieditor/detail', {api_name: api_name}, function (rsp) {
                 if (rsp.code != 0) {
                     alert("invalid response: " + rsp.message);
                     return;
@@ -213,7 +200,7 @@
 
         function choose_result(result_id) {
             var api_id = $('#api_id').val();
-            $.getJSON('/apieditor/choose?api_id=' + api_id + '&result_id=' + result_id + '&rnd=' + Math.random(), function (rsp) {
+            $.post('/apieditor/choose', {api_id: api_id, result_id: result_id}, function (rsp) {
                 if (rsp.code != 0) {
                     alert("invalid response: " + rsp.message);
                     return;
@@ -225,7 +212,7 @@
 
         function display_result(result_id) {
             $('#result_id').html(result_id);
-            $.getJSON('/apieditor/result?result_id=' + result_id + '&rnd=' + Math.random(), function (rsp) {
+            $.post('/apieditor/result', {result_id: result_id}, function (rsp) {
                 if (rsp.code != 0) {
                     alert("invalid response: " + rsp.message);
                     return;
@@ -299,6 +286,17 @@
             );
         }
 
+        function format_json()
+        {
+            $.post('/apieditor/formatJson', {'result_content': $('#result_content').val()}, function (rsp) {
+                if (rsp.code != 0) {
+                    alert('invalid response');
+                    return;
+                }
+                $('#result_content').val(rsp.data.json);
+            });
+        }
+
     </script>
 
     <div class="container-fluid">
@@ -334,6 +332,7 @@
                     <input type="text" id="result_desc" name="result_desc" style="width:300px" value="" placeholder="(描述信息)"/>
                     <input type="button" onclick="save_result()" value="保存" class="btn" />
                     <a class="btn" href="#" onclick="new_result()">新建</a>
+                    <button class="btn" onclick="format_json()">json排版</button>
                 </div>
                 <textarea id="result_content" name="result_content" style="width:98%;height:300px;" placeholder="(api返回json)"></textarea>
             </div>
