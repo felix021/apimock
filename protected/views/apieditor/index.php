@@ -177,7 +177,7 @@
                         ['<td>', result.result_id],
                         ['<td width="350">', $('<span>').attr('id', 'result_desc_' + result.result_id).html(result.result_desc)],
                         ['<td>',
-                            result.chosen ? $('<a class="btn">').html('已选中') :
+                            result.chosen ? $('<a class="btn btn-info">').html('已选中') :
                             $('<a class="btn">').html('切换').attr('result_id', result.result_id).on('click', function () { choose_result($(this).attr('result_id')); }),
                             ' ',
                             $('<a class="btn">').html('查看').attr('result_id', result.result_id).on('click', function () { display_result($(this).attr('result_id')); }),
