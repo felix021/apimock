@@ -331,11 +331,11 @@
                 <div class="input-prepend input-append">
                     <span class="add-on" id="result_id">0</span>
                     <input type="text" id="result_desc" name="result_desc" style="width:300px" value="" placeholder="(描述信息)"/>
-                    <input type="button" onclick="save_result()" value="保存" class="btn" />
                     <a class="btn" href="#" onclick="new_result()">新建</a>
+                    <input type="button" onclick="save_result()" value="保存" class="btn" />
                     <button class="btn" onclick="format_json()">json排版</button>
                 </div>
-                <textarea id="result_content" name="result_content" style="width:98%;height:300px;" placeholder="(api返回json)"></textarea>
+                <textarea id="result_content" name="result_content" style="width:98%;height:600px;" placeholder="(api返回json)"></textarea>
             </div>
             </div>
           </div>
