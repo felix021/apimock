@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Api Editor - 场景切换</title>
+    <title><?=Yii::app()->name?> - 场景切换</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="i@felix021.com">
     <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -67,7 +67,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Api Editor</a>
+          <a class="brand" href="#"><?=Yii::app()->name?></a>
           <div class="nav-collapse collapse">
               <ul class="nav">
                   <li><a href="/apieditor/index">Api</a></li>
