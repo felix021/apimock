@@ -14,6 +14,7 @@ class ApiController extends CController
         }
 
         header("Content-Type: application/json; charset=utf-8");
+        header("Access-Control-Allow-Origin: *");
         echo $api->result->result_content;
         Yii::app()->end();
     }
