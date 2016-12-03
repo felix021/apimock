@@ -287,6 +287,25 @@
             );
         }
 
+        function remove_api()
+        {
+            if (!confirm("确定需要删除吗？")) {
+                return;
+            }
+            $.post('/apieditor/removeApi', {
+                    api_id: $('#api_id').val(),
+                },
+                function (rsp, status, xhr) {
+                    if (rsp.code != 0) {
+                        alert("删除失败: " + rsp.message);
+                        return;
+                    }
+                    alert('删除成功!');
+                },
+                'json'
+            );
+        }
+
         function format_json()
         {
             $.post('/apieditor/formatJson', {'result_content': $('#result_content').val()}, function (rsp) {
@@ -323,6 +342,7 @@
                 <div class="input-append">
                     <input type="text" id="api_desc">
                     <input type="button" onclick="change_api_desc()" value="修改" class="btn" />
+                    <button class="btn" onclick="remove_api()">删除API</button>
                 </div>
                 <table id="result_set" class="table table-bordered"></table>
             </div>

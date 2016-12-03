@@ -145,6 +145,20 @@ class ApieditorController extends Controller
         $this->ajaxOutput(Err::E_SUCCESS, '');
     }
 
+    public function actionRemoveApi()
+    {
+        $d = $this->buildData(['api_id']);
+        $api = Api::model()->findByPk($d['api_id']);
+        if (!$api) {
+            throw new CException("invalid api_id");
+        }
+        if ($api->resultSet) {
+            $this->ajaxOutput(Err::E_FAIL, '请先删除所有返回结果');
+        }
+        Api::model()->deleteByPk($d['api_id']);
+        $this->ajaxOutput(Err::E_SUCCESS, '');
+    }
+
     public function actionAddApi()
     {
         $d = $this->buildData(['api_name']);
