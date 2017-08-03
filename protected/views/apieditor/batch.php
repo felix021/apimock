@@ -50,7 +50,7 @@
 					if (obj == $('#query')[0])
 						details(query_results[0]);
 					else
-						details(obj.innerHTML);
+						details($(obj).attr('batch_id'));
 				}
             }
         }
@@ -113,8 +113,8 @@
         }
 
         var query_text = '';
-        function query(text) {
-            if (text == query_text)
+        function query(text, force = false) {
+            if (!force && text == query_text)
                 return;
             query_text = text;
             if (text.length >= 2) {
@@ -134,7 +134,7 @@
                 var batch_list = rsp.data.batch_list;
                 for (var i = 0; i < batch_list.length; i++) {
                     var batch = batch_list[i];
-                    var a = $('<a>').html(batch.batch_name).attr('tabindex', batch_list.length + 2)
+                    var a = $('<a>').html(batch.batch_name + ' - ' + batch.batch_desc).attr('tabindex', batch_list.length + 2)
                                     .attr('batch_id', batch.batch_id)
 									.on('click', function() { details($(this).attr('batch_id')); });
                     var li = $('<li>').append(a);
@@ -159,7 +159,8 @@
                     return;
                 }
                 $('#batch_id').val(rsp.data.batch_id);
-                $('#batch_name').val(rsp.data.batch_name).attr('batch_id', rsp.data.batch_id);
+                $('#batch_name').html(rsp.data.batch_name);
+                $('#batch_desc').val(rsp.data.batch_desc).attr('batch_id', rsp.data.batch_id);
 
                 var t = $('#rule_set').html('');
                 t.append(build_obj([
@@ -209,17 +210,19 @@
             });
         }
 
-        function change_batch_name()
+        function change_batch_desc()
         {
-            var batch_name = $('#batch_name').val();
+            var batch_name = $('#batch_name').html();
+            var batch_desc = $('#batch_desc').val();
             var batch_id = $('#batch_id').val();
-            $.post('/apieditor/changeBatchName', {batch_id: batch_id, batch_name: batch_name}, function (rsp) {
+            $.post('/apieditor/changeBatchDesc', {batch_id: batch_id, batch_desc: batch_desc}, function (rsp) {
                 if (rsp.code != 0) {
                     alert('添加失败: ' + rsp.message);
                     return;
                 }
                 alert('修改成功');
                 $('#query').val(batch_name);
+                query(batch_name, true);
             });
         }
 
@@ -288,11 +291,12 @@
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit" style="padding:20px;">
+            <h3 id="batch_name">查询关键字支持模糊查询场景名字</h3>
             <div id="detail" style="display:none;font-size:14px;">
                 <input type="hidden" id="batch_id" name="batch_id" value=""/>
                 <div class="input-append">
-                    <input type="text" id="batch_name">
-                    <input type="button" onclick="change_batch_name()" value="修改" class="btn" />
+                    <input type="text" id="batch_desc" />
+                    <input type="button" onclick="change_batch_desc()" value="修改" class="btn" />
                     <input type="button" onclick="apply_batch()" value="切换" class="btn" />
                 </div>
                 <table id="rule_set" class="table table-bordered"></table>

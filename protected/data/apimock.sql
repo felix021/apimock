@@ -26,7 +26,8 @@ create table result
 create table batch
 (
     batch_id int primary key auto_increment,
-    batch_name char(128) not null default '',
+    batch_name char(128) not null,
+    batch_desc char(256) not null default '',
     batch_created_at DATETIME NOT NULL DEFAULT "1000-01-01 00:00:00" COMMENT '创建时间',
     batch_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT '更新时间',
     unique key I_batch_name (batch_name)

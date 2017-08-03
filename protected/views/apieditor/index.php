@@ -72,6 +72,7 @@
               <ul class="nav">
                   <li class="active"><a href="#">Api</a></li>
                   <li><a href="/apieditor/batch">场景切换</a></li>
+                  <li><a href="#myModal" role="button" data-toggle="modal">使用说明</a></li>
               </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -367,6 +368,23 @@
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+
+    <div id="myModal" class="modal hide fade">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>使用说明</h3>
+        </div>
+
+        <div class="modal-body" style="margin:10px">
+            <p>在页面上编辑api的返回结果，然后将api拼接到 <strong><script>document.write(location.protocol + '://' + location.host)</script></strong> 之后作为请求地址，就能获得选中的返回结果。</p>
+            <p>“场景切换”功能允许一次性切换一批api的返回结果，方便针对指定场景进行测试验证；也可以将api拼接到 <strong><script>document.write(location.protocol + '://' + location.host)</script>/batch/{场景名称}</strong> 之后作为请求地址，对于配置好的api，使用场景中指定的结果，否则返回默认的结果。</p>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+        </div>
+    </div>
 
   </body>
 </html>

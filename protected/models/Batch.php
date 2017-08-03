@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'batch':
  * @property integer $batch_id
  * @property string $batch_name
+ * @property string $batch_desc
  * @property string $batch_created_at
  * @property string $batch_updated_at
  *
@@ -32,6 +33,7 @@ class Batch extends CActiveRecord
         return array(
             array('batch_name', 'required'),
             array('batch_name', 'length', 'max'=>128),
+            array('batch_desc', 'length', 'max'=>255),
             array('batch_created_at', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -115,17 +117,13 @@ class Batch extends CActiveRecord
         return $o;
     }
 
-    public function changeName($batch_name)
+    public function changeDesc($batch_desc)
     {
-        $this->batch_name = $batch_name;
+        $this->batch_desc = $batch_desc;
         try {
             $this->save();
         } catch (CDbException $e) {
-            if ($e->getCode() == 23000) {
-                throw new CDbException("场景重名");
-            } else {
-                throw $e;
-            }
+            throw $e;
         }
     }
 
@@ -141,5 +139,10 @@ class Batch extends CActiveRecord
             $trans->rollback();
             throw $e;
         }
+    }
+
+    public function findByName($name)
+    {
+        return self::model()->findByAttributes(['batch_name' => $name]);
     }
 }

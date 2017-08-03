@@ -143,4 +143,16 @@ class Rule extends CActiveRecord
             }
         }
     }
+
+    public function findResult($batch_id, $api_id)
+    {
+        $rule = self::model()->findByAttributes([
+            'rule_batch_id'  => $batch_id,
+            'rule_api_id'    => $api_id,
+        ]);
+        if (!$rule) {
+            return null;
+        }
+        return $rule->rule_result_id;
+    }
 }

@@ -11,6 +11,7 @@ class ApieditorController extends Controller
         'result_content'    => ['Validator', 'isJson'],
         'batch_id'          => ['Validator', 'isInteger'],
         'batch_name'        => ['Validator', 'isNonEmptyString'],
+        'batch_desc'        => null,
         'rule_id'           => ['Validator', 'isInteger'],
     ];
 
@@ -193,6 +194,7 @@ class ApieditorController extends Controller
             $batch_list[] = [
                 'batch_id'    => $batch->batch_id,
                 'batch_name'  => $batch->batch_name,
+                'batch_desc'  => $batch->batch_desc,
             ];
         }
         $this->ajaxOutput(Err::E_SUCCESS, '', ['batch_list' => $batch_list]);
@@ -208,6 +210,7 @@ class ApieditorController extends Controller
         $data = [
             'batch_id'   => $batch->batch_id,
             'batch_name' => $batch->batch_name,
+            'batch_desc' => $batch->batch_desc,
             'rule_set'   => [],
         ];
         foreach ($batch->ruleSet as $rule) {
@@ -232,14 +235,14 @@ class ApieditorController extends Controller
         $this->ajaxOutput(Err::E_SUCCESS, '', ['batch_id' => $batch->batch_id]);
     }
 
-    public function actionChangeBatchName()
+    public function actionChangeBatchDesc()
     {
-        $d = $this->buildData(['batch_id', 'batch_name']);
+        $d = $this->buildData(['batch_id', 'batch_desc']);
         $batch = Batch::model()->findByPk($d['batch_id']);
         if (!$batch) {
             throw new CException("invalid batch_id");
         }
-        $batch->changeName($d['batch_name']);
+        $batch->changeDesc($d['batch_desc']);
         $this->ajaxOutput(Err::E_SUCCESS, '');
     }
 
@@ -280,5 +283,16 @@ class ApieditorController extends Controller
         }
         $batch->apply();
         $this->ajaxOutput(Err::E_SUCCESS, '');
+    }
+
+    public function actionExport()
+    {
+        $arr_api = Api::model()->with('result')->findAll();
+        $result = [];
+        foreach ($arr_api as $api) {
+            $result[$api->api_name] = json_decode($api->result->result_content, true);
+        }
+        header("Content-Type: application/json");
+        echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }

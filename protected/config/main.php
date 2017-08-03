@@ -38,6 +38,7 @@ $main_config = [
                 'test/test' => 'test/test',
                 'apieditor' => 'apieditor/index',
                 'apieditor/<action:\w*>' => 'apieditor/<action>',
+                'batch/<batch_name:(\w|-)+>/(\w+/?)*' => 'batch/index',
                 '(\w+/?)+' => 'api/fetch',
             ],
         ],
