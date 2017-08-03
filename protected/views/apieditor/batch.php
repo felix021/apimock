@@ -192,7 +192,7 @@
 
         function details_current()
         {
-            details($('#batch_name').attr('batch_id'));
+            details($('#batch_desc').attr('batch_id'));
         }
 
         function remove_rule(rule_id)
