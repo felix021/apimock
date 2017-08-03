@@ -83,6 +83,6 @@ class Validator
 
     public static function isJson($json)
     {
-        return $json == 'null' or json_decode($json, true) !== null;
+        return trim($json) == 'null' or json_decode($json, true) !== null;
     }
 }

@@ -309,9 +309,9 @@
 
         function format_json()
         {
-            $.post('/apieditor/formatJson', {'result_content': $('#result_content').val()}, function (rsp) {
+            $.post('/apieditor/formatJson', {'json': $('#result_content').val()}, function (rsp) {
                 if (rsp.code != 0) {
-                    alert('invalid response');
+                    alert('排版失败：可能不是合法的json');
                     return;
                 }
                 $('#result_content').val(rsp.data.json);

@@ -8,11 +8,12 @@ class ApieditorController extends Controller
         'api_desc'          => ['Validator', 'isNonEmptyString'],
         'result_id'         => ['Validator', 'isInteger'],
         'result_desc'       => ['Validator', 'isNonEmptyString'],
-        'result_content'    => ['Validator', 'isJson'],
+        'result_content'    => null,
         'batch_id'          => ['Validator', 'isInteger'],
         'batch_name'        => ['Validator', 'isNonEmptyString'],
         'batch_desc'        => null,
         'rule_id'           => ['Validator', 'isInteger'],
+        'json'              => ['Validator', 'isJson'],
     ];
 
     public function actionTest()
@@ -169,8 +170,8 @@ class ApieditorController extends Controller
 
     public function actionFormatJson()
     {
-        $d = $this->buildData(['result_content']);
-        $obj = json_decode($d['result_content'], false);
+        $d = $this->buildData(['json']);
+        $obj = json_decode($d['json'], false);
         $this->ajaxOutput(Err::E_SUCCESS, '', [
             'json' => json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
         ]);
